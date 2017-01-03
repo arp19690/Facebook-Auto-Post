@@ -26,14 +26,11 @@ for data in config.ACCESS_TOKENS_LIST:
             if "message" not in json_data:
                 message = data["default_message"]
             else:
-                message = json_data["message"].encode("utf-8")
-                try:
-                    unicode(message, "ascii")
-                except UnicodeError:
-                    message = unicode(message, "utf-8")
-                else:
-                    # value was valid ASCII data
-                    pass
+                message = json_data["message"].decode('ascii', 'ignore')
+
+            if "source" in json_data:
+                message += "\n" + str(json_data["link"])
+
             json_data.update({"message": message})
 
             try:
