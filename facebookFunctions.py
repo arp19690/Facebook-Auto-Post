@@ -29,7 +29,7 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data):
                                                    profile_id=fb_profile_id)
         return True, fb_response
     except facebook.GraphAPIError as e:
-        return False, 'Something went wrong:', e.type, e.message
+        return False, 'Something went wrong: ' + str(e.message)
 
 
 def upload_photo(image_file_path, oauth_access_token):
