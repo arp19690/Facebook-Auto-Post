@@ -92,7 +92,7 @@ def get_attachments_dict(json_data, oauth_access_token):
         attachment_dict["name"] = json_data["message"]
     elif "story" in json_data:
         attachment_dict["caption"] = json_data["story"]
-        attachment_dict["name"] = json_data["story"]
+        attachment_dict["name"] = json_data["story"][:255]
 
     if "description" in json_data:
         attachment_dict["description"] = json_data["description"]
