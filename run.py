@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import sys
 
 import os
-from facebookFunctions import post_message_on_fb, get_timeline_posts, post_photo_on_fb
+import facebookFunctions as FFS
 import config
 
 reload(sys)
@@ -19,30 +19,30 @@ def mac_notify(title, message):
 some_timestamp = datetime.now() - timedelta(hours=config.DEFAULT_TIMEDELTA_HOURS)
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
 for data in config.ACCESS_TOKENS_LIST:
-    new_posts = get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
+    new_posts = FFS.get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
     if len(new_posts) > 0:
         for json_data in new_posts:
-
             if "message" not in json_data:
                 message = data["default_message"]
             else:
                 message = json_data["message"].decode('ascii', 'ignore')
-
-            if "source" in json_data:
-                message += "\n" + str(json_data["link"])
-
             json_data.update({"message": message})
 
             try:
-                if "full_picture" in json_data:
-                    api_status, api_message = post_photo_on_fb(data["access_token"], json_data)
+                if "source" in json_data:
+                    api_status, api_message = FFS.post_video_on_fb(data["profile_id"], data["access_token"], message,
+                                                                   json_data["link"])
+                elif "full_picture" in json_data:
+                    api_status, api_message = FFS.post_photo_on_fb(data["access_token"], json_data)
                 else:
-                    api_status, api_message = post_message_on_fb(data["profile_id"], data["access_token"], json_data)
-                    if api_status:
-                        print("Message successfully posted on " + data["name"] + "'s Timeline")
-                    else:
-                        print(api_message)
-                        mac_notify(data["name"], api_message)
+                    api_status, api_message = FFS.post_message_on_fb(data["profile_id"], data["access_token"],
+                                                                     json_data)
+
+                if api_status:
+                    print("Message successfully posted on " + data["name"] + "'s Timeline")
+                else:
+                    print(api_message)
+                    mac_notify(data["name"], api_message)
             except Exception as e:
                 print("An error occurred: " + str(e))
                 mac_notify(data["name"], e)
