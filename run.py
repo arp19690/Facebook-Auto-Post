@@ -3,11 +3,18 @@
 from datetime import datetime, timedelta
 import sys
 
+import os
 from facebookFunctions import post_message_on_fb, get_timeline_posts, post_photo_on_fb
 from config import access_tokens_list
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+
+def mac_notify(title, message):
+    os.system('terminal-notifier -title "' + str(title) + '" -message "' + str(message) + '"')
+    return True
+
 
 some_timestamp = datetime.now() - timedelta(days=10)
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
@@ -40,4 +47,5 @@ for data in access_tokens_list:
                         print(api_message)
             except Exception as e:
                 print("An error occurred: " + str(e))
+                mac_notify(data["name"], e)
                 pass
