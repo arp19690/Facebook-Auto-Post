@@ -16,7 +16,7 @@ def mac_notify(title, message):
     return True
 
 
-some_timestamp = datetime.now() - timedelta(days=10)
+some_timestamp = datetime.now() - timedelta(hours=24 * 10)
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
 for data in access_tokens_list:
     new_posts = get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
