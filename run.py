@@ -5,7 +5,7 @@ import sys
 
 import os
 from facebookFunctions import post_message_on_fb, get_timeline_posts, post_photo_on_fb
-from config import access_tokens_list
+import config
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -16,9 +16,9 @@ def mac_notify(title, message):
     return True
 
 
-some_timestamp = datetime.now() - timedelta(hours=24 * 10)
+some_timestamp = datetime.now() - timedelta(hours=config.DEFAULT_TIMEDELTA_HOURS)
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
-for data in access_tokens_list:
+for data in config.ACCESS_TOKENS_LIST:
     new_posts = get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
     if len(new_posts) > 0:
         for json_data in new_posts:
