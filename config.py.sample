@@ -1,6 +1,7 @@
 access_tokens_list = [
     {
         "name": "Page Name",
+        "default_message": "Your default message, if not message is found",
         "profile_id": "XXXXXXXXXXXXXXX",
         "from_profile_id": "XXXXXXXXXXXXXXX",
         "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
