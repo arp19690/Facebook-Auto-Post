@@ -29,12 +29,20 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data):
                                                    profile_id=fb_profile_id)
         return True, fb_response
     except facebook.GraphAPIError as e:
-        return False, 'Something went wrong:', e.type, e.message
+        return False, 'Something went wrong: ' + str(e.message)
 
 
-def upload_photo(image_file_path, oauth_access_token):
+def post_photo_on_fb(oauth_access_token, json_data):
+    image_file_path = 'tmpdata/' + str(json_data["id"]) + ".jpg"
+    download_photo(json_data["full_picture"], image_file_path)
+    fb_response = upload_photo(image_file_path, oauth_access_token, json_data["message"])
+    remove_photo(image_file_path)
+    return True, fb_response
+
+
+def upload_photo(image_file_path, oauth_access_token, message=""):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
-    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'))
+    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=message)
     return fb_response
 
 
@@ -92,7 +100,7 @@ def get_attachments_dict(json_data, oauth_access_token):
         attachment_dict["name"] = json_data["message"]
     elif "story" in json_data:
         attachment_dict["caption"] = json_data["story"]
-        attachment_dict["name"] = json_data["story"]
+        attachment_dict["name"] = json_data["story"][:255]
 
     if "description" in json_data:
         attachment_dict["description"] = json_data["description"]

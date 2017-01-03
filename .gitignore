@@ -1,4 +1,5 @@
 .idea
-.pyc
+*.pyc
 venv
 config.py
+tmpdata/*

@@ -2,6 +2,7 @@ access_tokens_list = [
     {
         "name": "Page Name",
         "profile_id": "XXXXXXXXXXXXXXX",
+        "from_profile_id": "XXXXXXXXXXXXXXX",
         "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     }
 ]
