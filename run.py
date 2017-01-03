@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 import sys
 
-from facebookFunctions import post_message_on_fb, get_timeline_posts
+from facebookFunctions import post_message_on_fb, get_timeline_posts, post_photo_on_fb
 from config import access_tokens_list
 
 reload(sys)
@@ -30,11 +30,14 @@ for data in access_tokens_list:
             json_data.update({"message": message})
 
             try:
-                api_status, api_message = post_message_on_fb(data["profile_id"], data["access_token"], json_data)
-                if api_status:
-                    print("Message successfully posted on " + data["name"] + "'s Timeline")
+                if "full_picture" in json_data:
+                    post_photo_on_fb(data["access_token"], json_data)
                 else:
-                    print(api_message)
+                    api_status, api_message = post_message_on_fb(data["profile_id"], data["access_token"], json_data)
+                    if api_status:
+                        print("Message successfully posted on " + data["name"] + "'s Timeline")
+                    else:
+                        print(api_message)
             except Exception as e:
                 print("An error occurred: " + str(e))
                 pass

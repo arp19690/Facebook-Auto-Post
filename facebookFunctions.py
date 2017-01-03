@@ -32,9 +32,17 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data):
         return False, 'Something went wrong: ' + str(e.message)
 
 
-def upload_photo(image_file_path, oauth_access_token):
+def post_photo_on_fb(oauth_access_token, json_data):
+    image_file_path = 'tmpdata/' + str(json_data["id"]) + ".jpg"
+    download_photo(json_data["full_picture"], image_file_path)
+    fb_response = upload_photo(image_file_path, oauth_access_token, json_data["message"])
+    remove_photo(image_file_path)
+    return True, fb_response
+
+
+def upload_photo(image_file_path, oauth_access_token, message=""):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
-    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'))
+    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=message)
     return fb_response
 
 
