@@ -45,6 +45,7 @@ for data in access_tokens_list:
                         print("Message successfully posted on " + data["name"] + "'s Timeline")
                     else:
                         print(api_message)
+                        mac_notify(data["name"], api_message)
             except Exception as e:
                 print("An error occurred: " + str(e))
                 mac_notify(data["name"], e)
