@@ -35,7 +35,7 @@ for data in config.ACCESS_TOKENS_LIST:
 
             try:
                 if "full_picture" in json_data:
-                    post_photo_on_fb(data["access_token"], json_data)
+                    api_status, api_message = post_photo_on_fb(data["access_token"], json_data)
                 else:
                     api_status, api_message = post_message_on_fb(data["profile_id"], data["access_token"], json_data)
                     if api_status:
