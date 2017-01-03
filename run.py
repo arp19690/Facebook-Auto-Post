@@ -24,7 +24,7 @@ for data in access_tokens_list:
         for json_data in new_posts:
 
             if "message" not in json_data:
-                message = "Urvashi Rautela #UrvashiRautela"
+                message = data["default_message"]
             else:
                 message = json_data["message"].encode("utf-8")
                 try:
