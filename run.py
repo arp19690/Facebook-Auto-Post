@@ -12,7 +12,7 @@ sys.setdefaultencoding('utf-8')
 some_timestamp = datetime.now() - timedelta(days=10)
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
 for data in access_tokens_list:
-    new_posts = get_timeline_posts("ImUrvashiRautela", since_timestamp, data["access_token"])
+    new_posts = get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
     if len(new_posts) > 0:
         for json_data in new_posts:
 
