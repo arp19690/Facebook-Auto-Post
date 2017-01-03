@@ -40,6 +40,12 @@ def post_photo_on_fb(oauth_access_token, json_data):
     return True, fb_response
 
 
+def post_video_on_fb(profile_id, oauth_access_token, message, video_link):
+    facebook_graph = facebook.GraphAPI(oauth_access_token)
+    fb_response = facebook_graph.put_object(profile_id, "feed", message=message, link=video_link)
+    return True, fb_response
+
+
 def upload_photo(image_file_path, oauth_access_token, message=""):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
     fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=message)
