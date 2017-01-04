@@ -79,10 +79,11 @@ def get_timeline_posts(fb_page_id, since_timestamp, oauth_access_token,
 
     try:
         response = requests.get(api_url)
-        if len(response) > 0:
-            return response.json()["data"]
+        data = response.json()
+        if "error" in data:
+            raise Exception, data["error"]["message"]
         else:
-            return []
+            return response.json()["data"]
     except Exception as e:
         print("An error occurred: " + str(e))
         return []
