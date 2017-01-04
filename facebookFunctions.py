@@ -77,11 +77,15 @@ def get_timeline_posts(fb_page_id, since_timestamp, oauth_access_token,
         api_url += "&limit=" + limit
     api_url += "&format=" + data_format + "&access_token=" + oauth_access_token
 
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        return response.json()["data"]
-    else:
-        return False
+    try:
+        response = requests.get(api_url)
+        if len(response) > 0:
+            return response.json()["data"]
+        else:
+            return []
+    except Exception as e:
+        print("An error occurred: " + str(e))
+        return []
 
 
 def get_attachments_dict(json_data, oauth_access_token):
