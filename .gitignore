@@ -4,3 +4,4 @@ venv
 config.py
 tmpdata/*
 facebookFunctions.pyc
+run.sh
