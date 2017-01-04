@@ -1,4 +1,8 @@
-access_tokens_list = [
+DEFAULT_TIMEDELTA_HOURS = 12
+FACEBOOK_APP_ID = 'XXXXXXXXXXXXXXXX'
+FACEBOOK_APP_SECRET = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+
+ACCESS_TOKENS_LIST = [
     {
         "name": "Page Name",
         "default_message": "Your default message, if not message is found",

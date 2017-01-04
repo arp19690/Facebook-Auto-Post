@@ -40,6 +40,12 @@ def post_photo_on_fb(oauth_access_token, json_data):
     return True, fb_response
 
 
+def post_video_on_fb(profile_id, oauth_access_token, message, video_link):
+    facebook_graph = facebook.GraphAPI(oauth_access_token)
+    fb_response = facebook_graph.put_object(profile_id, "feed", message=message, link=video_link)
+    return True, fb_response
+
+
 def upload_photo(image_file_path, oauth_access_token, message=""):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
     fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=message)
@@ -71,11 +77,16 @@ def get_timeline_posts(fb_page_id, since_timestamp, oauth_access_token,
         api_url += "&limit=" + limit
     api_url += "&format=" + data_format + "&access_token=" + oauth_access_token
 
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        return response.json()["data"]
-    else:
-        return False
+    try:
+        response = requests.get(api_url)
+        data = response.json()
+        if "error" in data:
+            raise Exception, data["error"]["message"]
+        else:
+            return response.json()["data"]
+    except Exception as e:
+        print("An error occurred: " + str(e))
+        return []
 
 
 def get_attachments_dict(json_data, oauth_access_token):
