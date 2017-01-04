@@ -16,13 +16,7 @@ def mac_notify(title, message):
     return True
 
 
-hours_input = config.DEFAULT_TIMEDELTA_HOURS
-if len(sys.argv) > 1:
-    script, hours_input = sys.argv
-
-some_timestamp = datetime.now() - timedelta(hours=int(hours_input))
-since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
-for data in config.ACCESS_TOKENS_LIST:
+def start_posting(since_timestamp, data):
     new_posts = FFS.get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
     if len(new_posts) > 0:
         # Reverse sorting the dictionary, since we want to post the last photo first so that it looks in an incremental order
@@ -53,3 +47,16 @@ for data in config.ACCESS_TOKENS_LIST:
                 print("An error occurred: " + str(e))
                 mac_notify(data["name"], e)
                 pass
+
+
+hours_input = config.DEFAULT_TIMEDELTA_HOURS
+if len(sys.argv) > 1:
+    script, hours_input = sys.argv
+
+some_timestamp = datetime.now() - timedelta(hours=int(hours_input))
+start_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
+
+mac_notify("Facebook Auto Post", "Script has been started")
+for tmpdata in config.ACCESS_TOKENS_LIST:
+    start_posting(start_timestamp, tmpdata)
+mac_notify("Facebook Auto Post", "Script terminated")
