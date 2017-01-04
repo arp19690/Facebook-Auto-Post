@@ -24,9 +24,9 @@ some_timestamp = datetime.now() - timedelta(hours=int(hours_input))
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
 for data in config.ACCESS_TOKENS_LIST:
     new_posts = FFS.get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
-    # Reverse sorting the dictionary, since we want to post the last photo first so that it looks in an incremental order
-    new_posts = sorted(new_posts, reverse=True)
     if len(new_posts) > 0:
+        # Reverse sorting the dictionary, since we want to post the last photo first so that it looks in an incremental order
+        new_posts = sorted(new_posts, reverse=True)
         for json_data in new_posts:
             if "message" not in json_data:
                 message = data["default_message"]
