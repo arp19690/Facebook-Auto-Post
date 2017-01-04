@@ -16,7 +16,11 @@ def mac_notify(title, message):
     return True
 
 
-some_timestamp = datetime.now() - timedelta(hours=config.DEFAULT_TIMEDELTA_HOURS)
+hours_input = config.DEFAULT_TIMEDELTA_HOURS
+if len(sys.argv) > 1:
+    script, hours_input = sys.argv
+
+some_timestamp = datetime.now() - timedelta(hours=int(hours_input))
 since_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
 for data in config.ACCESS_TOKENS_LIST:
     new_posts = FFS.get_timeline_posts(data["from_profile_id"], since_timestamp, data["access_token"])
