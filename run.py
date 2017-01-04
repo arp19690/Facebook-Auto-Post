@@ -25,12 +25,13 @@ def get_start_timestamp(filename=config.LAST_RUN_TIME_FILENAME, hours_input=conf
     return last_timestamp
 
 
-def update_last_run_time(datetimestamp, filename=config.LAST_RUN_TIME_FILENAME):
+def update_last_run_time(filename=config.LAST_RUN_TIME_FILENAME):
     if (os.path.isfile(filename)):
         os.remove(filename)
 
+    last_timestamp = str(datetime.now().strftime('%Y-%m-%dT%H:%M'))
     with open(filename, "w") as f:
-        f.write(str(datetimestamp))
+        f.write(str(last_timestamp))
     f.close()
     return True
 
@@ -74,5 +75,5 @@ mac_notify("Facebook Auto Post", "Script has been started")
 for tmpdata in config.ACCESS_TOKENS_LIST:
     start_posting(start_timestamp, tmpdata)
 
-update_last_run_time(start_timestamp)
+update_last_run_time()
 mac_notify("Facebook Auto Post", "Script terminated")
