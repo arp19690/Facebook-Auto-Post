@@ -89,22 +89,26 @@ def create_feed_url(fb_page_id, since_timestamp, oauth_access_token,
     return api_url
 
 
-def fetch_data(api_url):
-    next_url = None
+def fetch_data(api_url, data_list=[]):
     try:
         response = requests.get(api_url)
         data = response.json()
-        output_list = data["data"]
+        data_list += data["data"]
+        print(str(len(data_list)) + " results found")
         if "error" in data:
             raise Exception(data["error"]["message"])
         else:
             if 'paging' in data:
-                if 'next' in data['paging']['next']:
+                if 'next' in data['paging']:
                     next_url = data['paging']['next']
 
-            return True, output_list, next_url
+                    # Running this function again
+                    data_list = fetch_data(next_url, data_list)
+
+            return data_list
     except Exception as e:
-        return False, str(e), next_url
+        print("An error occurred: " + str(e))
+        return []
 
 
 def get_attachments_dict(json_data, oauth_access_token):
