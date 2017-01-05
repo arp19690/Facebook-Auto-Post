@@ -10,6 +10,7 @@ from helpers import mac_notify
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
+os.environ['TZ'] = 'Europe/London'
 
 
 def get_start_timestamp(filename=config.LAST_RUN_TIME_FILENAME, hours_input=config.DEFAULT_TIMEDELTA_HOURS):
@@ -57,7 +58,7 @@ def start_posting(since_timestamp, data):
                 if api_status:
                     print("Message successfully posted on " + data["name"] + "'s Timeline")
                 else:
-                    raise Exception, api_message
+                    raise Exception(api_message)
             except Exception as e:
                 print("An error occurred: " + str(e))
                 mac_notify(data["name"], e)

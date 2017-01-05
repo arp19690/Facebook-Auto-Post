@@ -6,6 +6,7 @@ import facebook
 import warnings
 import requests
 import os
+from config import BASE_DIR
 
 
 # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
@@ -36,7 +37,7 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments
 
 
 def post_photo_on_fb(oauth_access_token, json_data):
-    image_file_path = 'tmpdata/' + str(json_data["id"]) + ".jpg"
+    image_file_path = BASE_DIR + 'tmpdata/' + str(json_data["id"]) + ".jpg"
     download_photo(json_data["full_picture"], image_file_path)
     fb_response = upload_photo(image_file_path, oauth_access_token, json_data["message"])
     remove_photo(image_file_path)
