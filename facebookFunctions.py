@@ -79,39 +79,32 @@ def get_image_url_on_id(photo_id, oauth_access_token):
         return False
 
 
-def get_timeline_posts(fb_page_id, since_timestamp, oauth_access_token,
-                       get_fields="id,link,picture,source,message,created_time,full_picture,description",
-                       limit=None, data_format="json"):
+def create_feed_url(fb_page_id, since_timestamp, oauth_access_token,
+                    get_fields="id,link,picture,source,message,created_time,full_picture,description",
+                    limit=None, data_format="json"):
     api_url = "https://graph.facebook.com/v2.8/" + fb_page_id + "/feed?fields=" + get_fields + "&since=" + since_timestamp
     if limit is not None:
         api_url += "&limit=" + limit
     api_url += "&format=" + data_format + "&access_token=" + oauth_access_token
-
-    api_status, api_data = fetch_data(api_url)
-    next_url = None
-    if api_status is True:
-        data = api_data["data"]
-
-        if 'paging' in data:
-            if 'next' in data['paging']['next']:
-                next_url = data['paging']['next']
-
-        return data, data[-1]["created_time"][16:], next_url
-    else:
-        return [], since_timestamp, next_url
+    return api_url
 
 
 def fetch_data(api_url):
+    next_url = None
     try:
         response = requests.get(api_url)
         data = response.json()
+        output_list = data["data"]
         if "error" in data:
             raise Exception(data["error"]["message"])
         else:
-            response_data = response.json()
-            return True, response_data
+            if 'paging' in data:
+                if 'next' in data['paging']['next']:
+                    next_url = data['paging']['next']
+
+            return True, output_list, next_url
     except Exception as e:
-        return False, str(e)
+        return False, str(e), next_url
 
 
 def get_attachments_dict(json_data, oauth_access_token):
