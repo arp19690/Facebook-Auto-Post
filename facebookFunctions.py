@@ -6,7 +6,7 @@ import facebook
 import warnings
 import requests
 import os
-from config import BASE_DIR
+from config import BASE_DIR, FILTER_KEYWORDS, AMAZON_AFFILIATE_URL
 
 
 # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
@@ -20,7 +20,7 @@ def get_app_access_token(fb_app_id, fb_app_secret):
 def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments=None):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
 
-    message = json_data["message"]
+    message = filter_text(json_data["message"])
     if attachments is None:
         attachments_dict = get_attachments_dict(json_data, oauth_access_token)
     else:
@@ -28,7 +28,7 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments
 
     # Try to post something on the wall.
     try:
-        fb_response = facebook_graph.put_wall_post(message=message,
+        fb_response = facebook_graph.put_wall_post(message=filter_text(message),
                                                    attachment=attachments_dict,
                                                    profile_id=fb_profile_id)
         return True, fb_response
@@ -39,20 +39,20 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments
 def post_photo_on_fb(oauth_access_token, json_data):
     image_file_path = BASE_DIR + 'tmpdata/' + str(json_data["id"]) + ".jpg"
     download_photo(json_data["full_picture"], image_file_path)
-    fb_response = upload_photo(image_file_path, oauth_access_token, json_data["message"])
+    fb_response = upload_photo(image_file_path, oauth_access_token, filter_text(json_data["message"]))
     remove_photo(image_file_path)
     return True, fb_response
 
 
 def post_video_on_fb(profile_id, oauth_access_token, message, video_link):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
-    fb_response = facebook_graph.put_object(profile_id, "feed", message=message, link=video_link)
+    fb_response = facebook_graph.put_object(profile_id, "feed", message=filter_text(message), link=video_link)
     return True, fb_response
 
 
 def upload_photo(image_file_path, oauth_access_token, message=""):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
-    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=message)
+    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=filter_text(message))
     return fb_response
 
 
@@ -62,6 +62,12 @@ def download_photo(source, destination):
 
 def remove_photo(destination):
     return os.remove(destination)
+
+
+def filter_text(message, replace_with=AMAZON_AFFILIATE_URL):
+    for keyword in FILTER_KEYWORDS:
+        message = message.replace(str(keyword), replace_with)
+    return message
 
 
 def get_image_url_on_id(photo_id, oauth_access_token):
@@ -111,13 +117,13 @@ def get_attachments_dict(json_data, oauth_access_token):
             attachment_dict["link"] = fb_image_url
 
     if "message" in json_data:
-        attachment_dict["caption"] = json_data["message"]
-        attachment_dict["name"] = json_data["message"]
+        attachment_dict["caption"] = filter_text(json_data["message"])
+        attachment_dict["name"] = filter_text(json_data["message"])
     elif "story" in json_data:
-        attachment_dict["caption"] = json_data["story"]
-        attachment_dict["name"] = json_data["story"][:255]
+        attachment_dict["caption"] = filter_text(json_data["story"])
+        attachment_dict["name"] = filter_text(json_data["story"][:255])
 
-    if "description" in json_data:
-        attachment_dict["description"] = json_data["description"]
+        if "description" in json_data:
+            attachment_dict["description"] = filter_text(json_data["description"])
 
     return attachment_dict
