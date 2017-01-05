@@ -6,14 +6,10 @@ import sys
 import os
 import facebookFunctions as FFS
 import config
+from helpers import mac_notify
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
-
-def mac_notify(title, message):
-    os.system('terminal-notifier -title "' + str(title) + '" -message "' + str(message) + '"')
-    return True
 
 
 def get_start_timestamp(filename=config.LAST_RUN_TIME_FILENAME, hours_input=config.DEFAULT_TIMEDELTA_HOURS):
