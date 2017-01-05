@@ -87,17 +87,31 @@ def get_timeline_posts(fb_page_id, since_timestamp, oauth_access_token,
         api_url += "&limit=" + limit
     api_url += "&format=" + data_format + "&access_token=" + oauth_access_token
 
+    api_status, api_data = fetch_data(api_url)
+    next_url = None
+    if api_status is True:
+        data = api_data["data"]
+
+        if 'paging' in data:
+            if 'next' in data['paging']['next']:
+                next_url = data['paging']['next']
+
+        return data, data[-1]["created_time"][16:], next_url
+    else:
+        return [], since_timestamp, next_url
+
+
+def fetch_data(api_url):
     try:
         response = requests.get(api_url)
         data = response.json()
         if "error" in data:
-            raise Exception, data["error"]["message"], since_timestamp
+            raise Exception(data["error"]["message"])
         else:
-            response_data = response.json()["data"]
-            return response_data, response_data[-1]["created_time"][16:]
+            response_data = response.json()
+            return True, response_data
     except Exception as e:
-        print("An error occurred: " + str(e))
-        return [], since_timestamp
+        return False, str(e)
 
 
 def get_attachments_dict(json_data, oauth_access_token):
