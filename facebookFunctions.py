@@ -16,11 +16,14 @@ def get_app_access_token(fb_app_id, fb_app_secret):
     return facebook.get_app_access_token(fb_app_id, fb_app_secret)
 
 
-def post_message_on_fb(fb_profile_id, oauth_access_token, json_data):
+def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments=None):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
 
     message = json_data["message"]
-    attachments_dict = get_attachments_dict(json_data, oauth_access_token)
+    if attachments is None:
+        attachments_dict = get_attachments_dict(json_data, oauth_access_token)
+    else:
+        attachments_dict = attachments
 
     # Try to post something on the wall.
     try:
