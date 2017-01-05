@@ -5,3 +5,4 @@ config.py
 tmpdata/*
 facebookFunctions.pyc
 run.sh
+lastrun.txt

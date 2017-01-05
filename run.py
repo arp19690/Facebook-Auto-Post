@@ -6,13 +6,29 @@ import sys
 import os
 import facebookFunctions as FFS
 import config
+from helpers import mac_notify
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-def mac_notify(title, message):
-    os.system('terminal-notifier -title "' + str(title) + '" -message "' + str(message) + '"')
+def get_start_timestamp(filename=config.LAST_RUN_TIME_FILENAME, hours_input=config.DEFAULT_TIMEDELTA_HOURS):
+    if (os.path.isfile(filename)):
+        last_timestamp = str(open(filename, "r").read())
+    else:
+        some_timestamp = datetime.now() - timedelta(hours=int(hours_input))
+        last_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
+    return last_timestamp
+
+
+def update_last_run_time(filename=config.LAST_RUN_TIME_FILENAME):
+    if (os.path.isfile(filename)):
+        os.remove(filename)
+
+    last_timestamp = str(datetime.now().strftime('%Y-%m-%dT%H:%M'))
+    with open(filename, "w") as f:
+        f.write(str(last_timestamp))
+    f.close()
     return True
 
 
@@ -41,22 +57,18 @@ def start_posting(since_timestamp, data):
                 if api_status:
                     print("Message successfully posted on " + data["name"] + "'s Timeline")
                 else:
-                    print(api_message)
-                    mac_notify(data["name"], api_message)
+                    raise Exception, api_message
             except Exception as e:
                 print("An error occurred: " + str(e))
                 mac_notify(data["name"], e)
                 pass
 
 
-hours_input = config.DEFAULT_TIMEDELTA_HOURS
-if len(sys.argv) > 1:
-    script, hours_input = sys.argv
-
-some_timestamp = datetime.now() - timedelta(hours=int(hours_input))
-start_timestamp = str(some_timestamp.strftime('%Y-%m-%dT%H:%M'))
+start_timestamp = get_start_timestamp()
 
 mac_notify("Facebook Auto Post", "Script has been started")
 for tmpdata in config.ACCESS_TOKENS_LIST:
     start_posting(start_timestamp, tmpdata)
+
+update_last_run_time()
 mac_notify("Facebook Auto Post", "Script terminated")
