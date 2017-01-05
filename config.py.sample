@@ -3,12 +3,25 @@ FACEBOOK_APP_ID = 'XXXXXXXXXXXXXXXX'
 FACEBOOK_APP_SECRET = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 LAST_RUN_TIME_FILENAME = "some_filename.txt"
 
+WP_WEBSITE = "http://www.xyz.com"
+WP_USERNAME = "XXXXXXXX"
+WP_PASSWORD = "XXXXXXXXXXXXXXXX"
+
 ACCESS_TOKENS_LIST = [
     {
         "name": "Page Name",
-        "default_message": "Your default message, if not message is found",
+        "default_message": "Your default message, if no message is found",
         "profile_id": "XXXXXXXXXXXXXXX",
         "from_profile_id": "XXXXXXXXXXXXXXX",
+        "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    }
+]
+
+WP_ACCESS_TOKENS_LIST = [
+    {
+        "name": "Blog Name",
+        "default_message": "Your default message, if no message is found",
+        "profile_id": "XXXXXXXXXXXXXXX",
         "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     }
 ]
