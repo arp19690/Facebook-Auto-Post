@@ -97,7 +97,7 @@ def get_attachments_dict(json_data, oauth_access_token):
     attachment_dict = {}
 
     if "full_picture" in json_data:
-        image_file_path = 'tmpdata/' + str(json_data["id"]) + ".jpg"
+        image_file_path = BASE_DIR + 'tmpdata/' + str(json_data["id"]) + ".jpg"
         download_photo(json_data["full_picture"], image_file_path)
         upload_response = upload_photo(image_file_path, oauth_access_token)
         remove_photo(image_file_path)
