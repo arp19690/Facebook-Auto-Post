@@ -44,7 +44,7 @@ def start_posting(since_timestamp, data):
     if len(new_posts) > 0:
         latest_timestamp = new_posts[0]["created_time"][16:]
         # Reverse sorting the dictionary, since we want to post the last photo first so that it looks in an incremental order
-        new_posts = new_posts.sort(reverse=True)
+        new_posts = sorted(new_posts, reverse=True)
         print("Now we will start posting " + str(len(new_posts)) + " posts")
         for json_data in new_posts:
             if "message" not in json_data:
