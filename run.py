@@ -39,10 +39,10 @@ def update_last_run_time(last_timestamp=None, filename=config.LAST_RUN_TIME_FILE
 
 def start_posting(since_timestamp, data):
     api_url = FFS.create_feed_url(data["from_profile_id"], since_timestamp, data["access_token"])
-    new_posts = FFS.fetch_data(api_url)
+    new_posts = FFS.fetch_data(api_url, [])
     latest_timestamp = since_timestamp
     if len(new_posts) > 0:
-        latest_timestamp = new_posts[0]["created_time"][16:]
+        latest_timestamp = new_posts[0]["created_time"][:16]
         # Reverse sorting the dictionary, since we want to post the last photo first so that it looks in an incremental order
         new_posts = sorted(new_posts, reverse=True)
         print("Now we will start posting " + str(len(new_posts)) + " posts")
