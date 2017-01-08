@@ -21,8 +21,12 @@ def fetch_posts(wp_client, post_status="publish", post_limit=86):
     posts = wp_client.call(GetPosts({'post_status': post_status, 'number': post_limit}))
     if len(posts) > 0:
         for post_data in posts:
-            data_dict = get_attachments_dict(post_data)
-            output_list.append(data_dict)
+            try:
+                data_dict = get_attachments_dict(post_data)
+                output_list.append(data_dict)
+            except Exception as e:
+                print("An error occurred: " + str(e))
+                pass
 
     return output_list
 
