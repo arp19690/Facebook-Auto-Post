@@ -41,15 +41,15 @@ if len(formatted_posts) > 0 and len(config.WP_ACCESS_TOKENS_LIST) > 0:
                 if data["appended_message"] is not None:
                     fb_post_message += "\n\n" + data["appended_message"]
 
-            # try:
-            #     api_status, api_message = post_message_on_fb(data["profile_id"], data["access_token"],
-            #                                                  {"message": fb_post_message}, post_data)
-            #
-            #     if api_status:
-            #         print("Message successfully posted on " + data["name"] + "'s Timeline")
-            #     else:
-            #         raise Exception, api_message
-            # except Exception as e:
-            #     print("An error occurred: " + str(e))
-            #     mac_notify(data["name"], e)
-            #     pass
+            try:
+                api_status, api_message = post_message_on_fb(data["profile_id"], data["access_token"],
+                                                             {"message": fb_post_message}, post_data)
+
+                if api_status:
+                    print("Message successfully posted on " + data["name"] + "'s Timeline")
+                else:
+                    raise Exception, api_message
+            except Exception as e:
+                print("An error occurred: " + str(e))
+                mac_notify(data["name"], e)
+                pass
