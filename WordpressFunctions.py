@@ -16,7 +16,7 @@ def get_attachments_dict(post_data):
     return attachment_dict
 
 
-def fetch_posts(wp_client, post_status="publish", post_limit=86):
+def fetch_posts(wp_client, post_status="publish", post_limit=10):
     output_list = []
     posts = wp_client.call(GetPosts({'post_status': post_status, 'number': post_limit}))
     if len(posts) > 0:
