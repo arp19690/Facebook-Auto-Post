@@ -98,7 +98,7 @@ def get_image_url_on_id(photo_id, oauth_access_token):
 
 
 def create_feed_url(fb_page_id, since_timestamp, oauth_access_token,
-                    get_fields="id,link,picture,source,message,created_time,full_picture,description",
+                    get_fields="id,link,picture,source,message,created_time,full_picture,description,from",
                     limit=None, data_format="json"):
     api_url = "https://graph.facebook.com/v2.8/" + fb_page_id + "/feed?fields=" + get_fields + "&since=" + since_timestamp
     if limit is not None:
