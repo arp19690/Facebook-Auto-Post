@@ -6,6 +6,7 @@ import facebook
 import warnings
 import requests
 import os
+import re
 from config import BASE_DIR, FILTER_KEYWORDS, AMAZON_AFFILIATE_URL
 
 
@@ -15,6 +16,17 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 
 def get_app_access_token(fb_app_id, fb_app_secret):
     return facebook.get_app_access_token(fb_app_id, fb_app_secret)
+
+
+def get_long_lived_access_token(fb_app_id, fb_app_secret, access_token):
+    api_url = "https://graph.facebook.com/v2.2/oauth/access_token?grant_type=fb_exchange_token&client_id=" + str(
+        fb_app_id) + "&client_secret=" + str(fb_app_secret) + "&fb_exchange_token=" + str(access_token)
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        output = response.text.split("=")
+        return output[1]
+    else:
+        return False
 
 
 def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments=None):
@@ -64,7 +76,13 @@ def remove_photo(destination):
     return os.remove(destination)
 
 
+def find_and_replace_url(message, replace_with_str=AMAZON_AFFILIATE_URL):
+    new_str = re.sub(r'\w+:\/{2}[\d\w-]+(\.[\d\w-]+)*(?:(?:\/[^\s/]*))*', replace_with_str, message)
+    return new_str
+
+
 def filter_text(message, replace_with=AMAZON_AFFILIATE_URL):
+    message = find_and_replace_url(message, replace_with)
     for keyword in FILTER_KEYWORDS:
         message = message.replace(str(keyword), replace_with)
     return message
