@@ -54,19 +54,22 @@ def start_posting(since_timestamp, data):
             json_data.update({"message": message})
 
             try:
-                if "source" in json_data:
-                    api_status, api_message = FFS.post_video_on_fb(data["profile_id"], data["access_token"], message,
-                                                                   json_data["link"])
-                elif "full_picture" in json_data:
-                    api_status, api_message = FFS.post_photo_on_fb(data["access_token"], json_data)
-                else:
-                    api_status, api_message = FFS.post_message_on_fb(data["profile_id"], data["access_token"],
-                                                                     json_data)
+                # Posting the article, only if the post was posted from that page and not other users
+                if str(json_data["from"]["id"]) == str(data["from_profile_id"]):
+                    if "source" in json_data:
+                        api_status, api_message = FFS.post_video_on_fb(data["profile_id"], data["access_token"],
+                                                                       message,
+                                                                       json_data["link"])
+                    elif "full_picture" in json_data:
+                        api_status, api_message = FFS.post_photo_on_fb(data["access_token"], json_data)
+                    else:
+                        api_status, api_message = FFS.post_message_on_fb(data["profile_id"], data["access_token"],
+                                                                         json_data)
 
-                if api_status:
-                    print("Message successfully posted on " + data["name"] + "'s Timeline")
-                else:
-                    raise Exception(api_message)
+                    if api_status:
+                        print("Message successfully posted on " + data["name"] + "'s Timeline")
+                    else:
+                        raise Exception(api_message)
             except Exception as e:
                 print("An error occurred: " + str(e))
                 mac_notify(data["name"], e)
