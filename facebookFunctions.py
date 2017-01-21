@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import urllib
 
 import facebook
@@ -42,23 +41,6 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments
     try:
         fb_response = facebook_graph.put_wall_post(message=filter_text(message),
                                                    attachment=attachments_dict,
-                                                   profile_id=fb_profile_id)
-        return True, fb_response
-    except facebook.GraphAPIError as e:
-        return False, 'Something went wrong: ' + str(e.message)
-
-
-def post_child_attachments_message_on_fb(fb_profile_id, oauth_access_token, data_dict):
-    facebook_graph = facebook.GraphAPI(oauth_access_token)
-
-    message = filter_text(data_dict["message"])
-    child_attachments_list=get_child_attachments_list()
-
-    # Try to post something on the wall.
-    try:
-        fb_response = facebook_graph.put_wall_post(message=filter_text(message),
-                                                   link=data_dict["link"],
-                                                   child_attachments=child_attachments_list,
                                                    profile_id=fb_profile_id)
         return True, fb_response
     except facebook.GraphAPIError as e:
@@ -144,18 +126,6 @@ def fetch_data(api_url, data_list=[]):
     except Exception as e:
         print("An error occurred: " + str(e))
         return []
-
-def get_child_attachments_list(data_dict):
-    child_attachments_list = []
-    if len(data_dict) > 0:
-        for data in data_dict:
-            child_attachments_list.append({
-                    "link":data["link"],
-                    "picture":data["picture"],
-                    "name":filter_text(data["name"]),
-                    "description":filter_text(data["description"]),
-                })
-    return child_attachments_list
 
 
 def get_attachments_dict(json_data, oauth_access_token):
