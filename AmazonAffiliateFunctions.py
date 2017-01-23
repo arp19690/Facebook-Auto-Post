@@ -7,7 +7,7 @@ from config import AMAZON_AFFILIATE_URL
 from helpers import mac_notify
 
 MESSAGE_TEXT_LIST = [
-    "Huge offers on Amazon.\nGreat quality products at affordable prices.\nGet now\n\nhttp://amzn.to/2jflry2"
+    "Huge offers on Amazon.\nGreat quality products at affordable prices.\nGet now\n\n" + AMAZON_AFFILIATE_URL
 ]
 
 CHILD_ATTACHMENT_LIST = [
