@@ -90,12 +90,18 @@ def get_child_attachments_list(
     return output_list
 
 
-def start_posting(data_dict):
+def start_posting():
     for AAD in AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST:
         api_url = "https://graph.facebook.com/v2.8/" + AAD[
             "profile_id"] + "/feed?access_token=" + AAD["access_token"]
 
-        status = requests.post(api_url, data_dict)
+        post_data_dict = {
+            "message": random.choice(MESSAGE_TEXT_LIST),
+            "link": AMAZON_AFFILIATE_URL,
+            "child_attachments": json.dumps(get_child_attachments_list()),
+        }
+
+        status = requests.post(api_url, post_data_dict)
         if status.status_code == 200:
             print("Affiliate links successfully posted on " + str(
                 AAD["name"]) + "'s timeline")
@@ -104,10 +110,5 @@ def start_posting(data_dict):
             print(status.text)
 
 
-post_data_dict = {
-    "message": random.choice(MESSAGE_TEXT_LIST),
-    "link": AMAZON_AFFILIATE_URL,
-    "child_attachments": json.dumps(get_child_attachments_list()),
-}
-start_posting(post_data_dict)
+start_posting()
 mac_notify("Affiliate links", "Posted to all the pages successfully")
