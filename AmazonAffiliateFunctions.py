@@ -4,6 +4,7 @@ import random
 import requests
 from config import AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST
 from config import AMAZON_AFFILIATE_URL
+from helpers import mac_notify
 
 MESSAGE_TEXT_LIST = [
     "Huge offers on Amazon.\nGreat quality products at affordable prices.\nGet now\n\nhttp://amzn.to/2jflry2"
@@ -77,9 +78,8 @@ def start_posting(data_dict):
 
         status = requests.post(api_url, data_dict)
         if status.status_code == 200:
-            print(
-                "Messages successfully posted on " + str(
-                    AAD["name"]) + "'s timeline")
+            print("Affiliate links successfully posted on " + str(
+                AAD["name"]) + "'s timeline")
         else:
             print("An error occurred")
             print(status.text)
@@ -91,3 +91,4 @@ post_data_dict = {
     "child_attachments": json.dumps(get_child_attachments_list()),
 }
 start_posting(post_data_dict)
+mac_notify("Affiliate links", "Posted to all the pages successfully")
