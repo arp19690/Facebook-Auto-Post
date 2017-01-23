@@ -31,15 +31,33 @@ CHILD_ATTACHMENT_LIST = [
     },
     {
         "name": "Fashion Sale. Big Brands starting @ 499",
-        "description": "Enjoy big cashbacks and offers on Clothing and accessories. Amazon Fashin Sale is here",
+        "description": "Enjoy big cashbacks and offers on Clothing and accessories. Amazon Fashin Sale is here.",
         "picture": "http://www.thegogle.com/wp-content/uploads/2016/11/fashion13.jpg",
         "link": "http://amzn.to/2jfp7Qf",
     },
     {
         "name": "Shoes for Women. Upto 70% off",
-        "description": "Big brands on sale. Offer only for a limited period. Shop now",
+        "description": "Big brands on sale. Offer only for a limited period. Shop now.",
         "picture": "http://cdn2.secure-e.com/bridalshoes.com.au/prodimg/2015/06/1054_harper-ruby-new_2048_1363.jpg",
         "link": "http://amzn.to/2kizPHm",
+    },
+    {
+        "name": "Microwave Ovens starting just @ 4,090",
+        "description": "Buy microwave ovens at super cheap prices. Buy now.",
+        "picture": "http://www.lg.com/in/images/microwave-ovens/md05265523/gallery/Large-940x620_0000146.jpg",
+        "link": "http://amzn.to/2kjoFCv",
+    },
+    {
+        "name": "Fashion Jewellery & accessories for every occasion",
+        "description": "Get fashionable. Get trendy. Show now.",
+        "picture": "https://picscelb.files.wordpress.com/2014/07/western-wedding-bridal-new-fashion-for-girls-women-by-royal-jewelley-1.jpg",
+        "link": "http://amzn.to/2jIqpln",
+    },
+    {
+        "name": "Buy Furniture @ Amazon",
+        "description": "Discover the Latest Furniture Designs Online",
+        "picture": "http://www.homezguru.com/wp-content/uploads/2015/05/keens-furniture-beersbridge.jpg",
+        "link": "http://amzn.to/2kjfuSv",
     },
 ]
 
