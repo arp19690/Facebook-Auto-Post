@@ -111,4 +111,4 @@ def start_posting():
 
 
 start_posting()
-mac_notify("Affiliate links", "Posted to all the pages successfully")
+mac_notify("Affiliate links", "All promotional links have been posted successfully")
