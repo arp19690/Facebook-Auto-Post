@@ -1,7 +1,3 @@
-from config import AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST
-from config import AMAZON_AFFILIATE_URL
-from amazon_offers import helpers as AMZ_helpers
-
 EXCLUDE_PROFILE_IDS = ["280228608801032"]
 
 MESSAGE_TEXT_LIST = [
@@ -67,11 +63,3 @@ CHILD_ATTACHMENT_LIST = [
         "link": "http://amzn.to/2kC1vH2",
     },
 ]
-
-
-def start_posting():
-    AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
-                           CHILD_ATTACHMENT_LIST,
-                           MESSAGE_TEXT_LIST,
-                           AMAZON_AFFILIATE_URL,
-                           EXCLUDE_PROFILE_IDS)
