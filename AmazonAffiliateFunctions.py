@@ -5,6 +5,8 @@ import requests
 from config import AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST
 from config import AMAZON_AFFILIATE_URL
 from helpers import mac_notify
+from amazon_offers import victoria_secret_cosmetics as VSC
+from amazon_offers import women_intimate_apparels as WIP
 
 MESSAGE_TEXT_LIST = [
     "Huge offers on Amazon.\nGreat quality products at affordable prices.\nGet now\n\n" + AMAZON_AFFILIATE_URL,
@@ -111,4 +113,7 @@ def start_posting():
 
 
 start_posting()
-mac_notify("Affiliate links", "All promotional links have been posted successfully")
+VSC.start_posting()
+WIP.start_posting()
+mac_notify("Affiliate links",
+           "All promotional links have been posted successfully")
