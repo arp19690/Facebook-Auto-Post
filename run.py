@@ -80,9 +80,9 @@ def start_posting(since_timestamp, data):
 
 start_timestamp = get_start_timestamp()
 
-mac_notify("Facebook Auto Post", "Script has been started")
+mac_notify("Facebook Auto Post", "I will now be posting on Facebook on your behalf")
 for tmpdata in config.ACCESS_TOKENS_LIST:
     last_timestamp = start_posting(start_timestamp, tmpdata)
 
 update_last_run_time(last_timestamp)
-mac_notify("Facebook Auto Post", "Script terminated")
+mac_notify("Facebook Auto Post", "I have finished publishing posts on Facebook")
