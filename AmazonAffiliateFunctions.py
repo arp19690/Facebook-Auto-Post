@@ -1,12 +1,7 @@
-import json
-import random
-
-import requests
 from config import AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST
 from config import AMAZON_AFFILIATE_URL
 from helpers import mac_notify
-from amazon_offers import victoria_secret_cosmetics as VSC
-from amazon_offers import women_intimate_apparels as WIP
+from amazon_offers import helpers as AMZ_helpers
 
 MESSAGE_TEXT_LIST = [
     "Huge offers on Amazon.\nGreat quality products at affordable prices.\nGet now\n\n" + AMAZON_AFFILIATE_URL,
@@ -65,55 +60,14 @@ CHILD_ATTACHMENT_LIST = [
 ]
 
 
-def get_random_but_unique_num_in_list(limit=5):
-    output_list = []
-    for i in xrange(0, len(CHILD_ATTACHMENT_LIST)):
-        random_int = random.randint(0, len(CHILD_ATTACHMENT_LIST) - 1)
-        if len(output_list) < limit:
-            if random_int not in output_list:
-                output_list.append(random_int)
-            else:
-                output_list = get_random_but_unique_num_in_list(limit)
-
-    return output_list
-
-
-def get_child_attachments_list(
-        random_num_list=get_random_but_unique_num_in_list()):
-    output_list = []
-    for i in random_num_list:
-        tmp_dict = {
-            "link": CHILD_ATTACHMENT_LIST[i]["link"],
-            "picture": CHILD_ATTACHMENT_LIST[i]["picture"],
-            "name": CHILD_ATTACHMENT_LIST[i]["name"],
-            "description": CHILD_ATTACHMENT_LIST[i]["description"]
-        }
-        output_list.append(tmp_dict)
-    return output_list
-
-
 def start_posting():
-    for AAD in AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST:
-        api_url = "https://graph.facebook.com/v2.8/" + AAD[
-            "profile_id"] + "/feed?access_token=" + AAD["access_token"]
+    AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
+                           CHILD_ATTACHMENT_LIST,
+                           MESSAGE_TEXT_LIST,
+                           AMAZON_AFFILIATE_URL)
 
-        post_data_dict = {
-            "message": random.choice(MESSAGE_TEXT_LIST),
-            "link": AMAZON_AFFILIATE_URL,
-            "child_attachments": json.dumps(get_child_attachments_list()),
-        }
-
-        status = requests.post(api_url, post_data_dict)
-        if status.status_code == 200:
-            print("Affiliate links successfully posted on " + str(
-                AAD["name"]) + "'s timeline")
-        else:
-            print("An error occurred")
-            print(status.text)
-
-
+# Posting Amazon Affiliate Categories
 start_posting()
-VSC.start_posting()
-WIP.start_posting()
+
 mac_notify("Affiliate links",
            "All promotional links have been posted successfully")
