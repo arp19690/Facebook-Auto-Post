@@ -6,6 +6,7 @@ from amazon_offers import helpers as AMZ_helpers
 from amazon_offers import general_links as GL
 from amazon_offers import victoria_secret_cosmetics as VCS
 from amazon_offers import women_intimate_apparels as WIP
+from amazon_offers import valentines_day_offer as VDO
 
 # Posting Amazon Affiliate links - General Categories
 print("Current Task: Posting General Amazon Links")
@@ -29,6 +30,14 @@ AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
                        WIP.MESSAGE_TEXT_LIST,
                        AMAZON_AFFILIATE_URL,
                        WIP.EXCLUDE_PROFILE_IDS)
+
+# Posting Amazon Affiliate links - Valentines day
+print("\nCurrent Task: Valentines Day Links")
+AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
+                       VDO.CHILD_ATTACHMENT_LIST,
+                       VDO.MESSAGE_TEXT_LIST,
+                       AMAZON_AFFILIATE_URL,
+                       VDO.EXCLUDE_PROFILE_IDS)
 
 mac_notify("Affiliate links",
            "All promotional links have been posted successfully")
