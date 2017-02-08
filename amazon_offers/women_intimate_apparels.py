@@ -45,12 +45,6 @@ CHILD_ATTACHMENT_LIST = [
         "link": "http://amzn.to/2jR0Wot",
     },
     {
-        "name": "Red Crotchless Thong",
-        "description": "Kaamastra - Sex positive!",
-        "picture": "http://ecx.images-amazon.com/images/I/61iP06pdadL._UX522_.jpg",
-        "link": "http://amzn.to/2kffNMZ",
-    },
-    {
         "name": "Padded Nonwired Demi Cup Bra",
         "description": "Seamless cups for 'No show look'",
         "picture": "http://ecx.images-amazon.com/images/I/91%2BxRJujcuL._UX522_.jpg",
