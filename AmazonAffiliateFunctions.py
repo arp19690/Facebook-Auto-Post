@@ -5,7 +5,6 @@ from amazon_offers import helpers as AMZ_helpers
 
 from amazon_offers import general_links as GL
 from amazon_offers import victoria_secret_cosmetics as VCS
-from amazon_offers import women_intimate_apparels as WIP
 from amazon_offers.threadaffiliates import functions as TAFunctions
 
 # Posting Amazon Affiliate links - General Categories
@@ -30,14 +29,6 @@ AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
                        VCS.MESSAGE_TEXT_LIST,
                        AMAZON_AFFILIATE_URL,
                        VCS.EXCLUDE_PROFILE_IDS)
-
-# Posting Amazon Affiliate links - Women Intimate Apparels
-print("\nCurrent Task: Women Intimate Apparels Links")
-AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
-                       WIP.CHILD_ATTACHMENT_LIST,
-                       WIP.MESSAGE_TEXT_LIST,
-                       AMAZON_AFFILIATE_URL,
-                       WIP.EXCLUDE_PROFILE_IDS)
 
 mac_notify("Affiliate links",
            "All promotional links have been posted successfully")
