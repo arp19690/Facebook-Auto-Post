@@ -7,12 +7,12 @@ from amazon_offers import general_links as GL
 from amazon_offers import victoria_secret_cosmetics as VCS
 from amazon_offers.threadaffiliates import functions as TAFunctions
 
-# Posting Amazon Affiliate links - General Categories
+# Posting Amazon Affiliate links - ThreadAffiliate Website Links
 print("Current Task: Posting ThreadAffiliate Website Links")
 AMZ_helpers.post_on_fb(AMAZON_AFFILIATE_DEALS_ACCESS_TOKENS_LIST,
                        TAFunctions.fetch_products(),
                        TAFunctions.get_post_message_list(),
-                       "http://store.threadcrafts.in")
+                       TAFunctions.WEBSITE_BASE_URL)
 
 
 # Posting Amazon Affiliate links - General Categories
