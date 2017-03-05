@@ -1,6 +1,11 @@
+import sys
+
 from config import THREADAFFILIATES_FB_DETAILS
 import helpers
 import pymysql
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 def get_db_connection():
@@ -37,11 +42,12 @@ def fetch_products(limit="0,5"):
     if len(data) > 0:
         for tmpdata in data:
             post_data_dict = {
-                "name": tmpdata["product_title"].encode("utf-8"),
+                "name": tmpdata["product_title"].decode("utf-8"),
                 "description": "Starts at Rs. " + str(
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
-                "link": tmpdata["product_url_short"],
+                "link": "http://store.threadcrafts.in/p/" + tmpdata[
+                    "product_url_key"],
             }
             output_list.append(post_data_dict)
     return output_list
