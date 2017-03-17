@@ -50,7 +50,7 @@ def fetch_products(limit="0,5"):
     if len(data) > 0:
         for tmpdata in data:
             post_data_dict = {
-                "name": str(tmpdata["product_title"]),
+                "name": str(tmpdata["product_title"].decode('string_escape')),
                 "description": "Starts at Rs. " + str(
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
