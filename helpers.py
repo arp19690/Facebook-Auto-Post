@@ -6,3 +6,12 @@ def mac_notify(title, message):
         message) + '"')
     os.system("say Sir, " + str(message))
     return True
+
+
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+        ]

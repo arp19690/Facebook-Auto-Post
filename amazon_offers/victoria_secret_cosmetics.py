@@ -2,9 +2,9 @@ EXCLUDE_PROFILE_IDS = ["280228608801032"]
 
 MESSAGE_TEXT_LIST = [
     "Looking for that perfect gift for your girl? What's better than a Victoria's Secret present. Make her feel special, get them now",
-    "Let this Valentine's Day be a special one. Gift your girl from an exclusive range of Victoria Secret's products. Get them now",
-    "You can still get your Valentine's Day gift on time. Shop from Victoria Secret's line of products and gift here a unique gift this year.",
-    "Victoria Secret's cosmetics. Shop now and get amazing offers. Valentine's Day is just around the corner."
+    "Gift your girl from an exclusive range of Victoria Secret's products. Get them now",
+    "Shop from Victoria Secret's line of products and gift here a unique gift this year.",
+    "Victoria Secret's cosmetics. Shop now and get amazing offers."
 ]
 
 CHILD_ATTACHMENT_LIST = [

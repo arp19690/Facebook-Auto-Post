@@ -25,8 +25,8 @@ def get_child_attachments_list(attachment_list, limit=5):
         tmp_dict = {
             "link": attachment_list[i]["link"],
             "picture": attachment_list[i]["picture"],
-            "name": attachment_list[i]["name"],
-            "description": attachment_list[i]["description"]
+            "name": attachment_list[i]["name"].encode("utf-8"),
+            "description": attachment_list[i]["description"].encode("utf-8")
         }
         output_list.append(tmp_dict)
     return output_list
