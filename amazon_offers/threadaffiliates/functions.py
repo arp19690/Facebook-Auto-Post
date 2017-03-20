@@ -54,8 +54,7 @@ def fetch_products(limit="0,5"):
                 "description": "Starts at Rs. " + str(
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
-                "link": WEBSITE_BASE_URL + "/buy-now/" + tmpdata[
-                    "product_url_key"],
+                "link": tmpdata["product_url_long"],
             }
             output_list.append(post_data_dict)
     return output_list
