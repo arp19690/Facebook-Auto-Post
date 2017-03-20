@@ -7,7 +7,7 @@ import pymysql
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-WEBSITE_BASE_URL = "http://store.threadcrafts.in"
+WEBSITE_BASE_URL = "https://www.threadcrafts.in"
 
 
 def get_db_connection():
@@ -54,7 +54,8 @@ def fetch_products(limit="0,5"):
                 "description": "Starts at Rs. " + str(
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
-                "link": WEBSITE_BASE_URL + "/p/" + tmpdata["product_url_key"],
+                "link": WEBSITE_BASE_URL + "/buy-now/" + tmpdata[
+                    "product_url_key"],
             }
             output_list.append(post_data_dict)
     return output_list
