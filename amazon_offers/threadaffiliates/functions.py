@@ -56,6 +56,9 @@ def fetch_products(limit="0,5"):
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
                 "link": tmpdata["product_url_long"],
+                "threadcrafts_buy_link": str(
+                    WEBSITE_BASE_URL + "/buy-now/" + tmpdata[
+                        "product_url_key"]),
             }
             output_list.append(post_data_dict)
     return output_list
