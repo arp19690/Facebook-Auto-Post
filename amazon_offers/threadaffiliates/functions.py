@@ -51,11 +51,14 @@ def fetch_products(limit="0,5"):
         for tmpdata in data:
             post_data_dict = {
                 "name": str(tmpdata["product_title"].decode('string_escape')),
+                "price": str(int(tmpdata["product_price_min"])),
                 "description": "Starts at Rs. " + str(
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
-                "link": WEBSITE_BASE_URL + "/buy-now/" + tmpdata[
-                    "product_url_key"],
+                "link": tmpdata["product_url_long"],
+                "threadcrafts_buy_link": str(
+                    WEBSITE_BASE_URL + "/buy-now/" + tmpdata[
+                        "product_url_key"]),
             }
             output_list.append(post_data_dict)
     return output_list
