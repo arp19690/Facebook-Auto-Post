@@ -7,6 +7,8 @@ import requests
 import os
 import re
 from config import BASE_DIR, FILTER_KEYWORDS, AMAZON_AFFILIATE_URL
+from pyshorteners import Shortener
+from config import GOOGLE_URL_SHORTENER_API_KEY
 
 
 # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
@@ -19,7 +21,8 @@ def get_app_access_token(fb_app_id, fb_app_secret):
 
 def get_long_lived_access_token(fb_app_id, fb_app_secret, access_token):
     api_url = "https://graph.facebook.com/v2.2/oauth/access_token?grant_type=fb_exchange_token&client_id=" + str(
-        fb_app_id) + "&client_secret=" + str(fb_app_secret) + "&fb_exchange_token=" + str(access_token)
+        fb_app_id) + "&client_secret=" + str(
+        fb_app_secret) + "&fb_exchange_token=" + str(access_token)
     response = requests.get(api_url)
     if response.status_code == 200:
         output = response.text.split("=")
@@ -28,7 +31,8 @@ def get_long_lived_access_token(fb_app_id, fb_app_secret, access_token):
         return False
 
 
-def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments=None):
+def post_message_on_fb(fb_profile_id, oauth_access_token, json_data,
+                       attachments=None):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
 
     message = filter_text(json_data["message"])
@@ -39,9 +43,10 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments
 
     # Try to post something on the wall.
     try:
-        fb_response = facebook_graph.put_wall_post(message=filter_text(message),
-                                                   attachment=attachments_dict,
-                                                   profile_id=fb_profile_id)
+        fb_response = facebook_graph.put_wall_post(
+            message=filter_text(message),
+            attachment=attachments_dict,
+            profile_id=fb_profile_id)
         return True, fb_response
     except facebook.GraphAPIError as e:
         return False, 'Something went wrong: ' + str(e.message)
@@ -50,20 +55,24 @@ def post_message_on_fb(fb_profile_id, oauth_access_token, json_data, attachments
 def post_photo_on_fb(oauth_access_token, json_data):
     image_file_path = BASE_DIR + 'tmpdata/' + str(json_data["id"]) + ".jpg"
     download_photo(json_data["full_picture"], image_file_path)
-    fb_response = upload_photo(image_file_path, oauth_access_token, filter_text(json_data["message"]))
+    fb_response = upload_photo(image_file_path, oauth_access_token,
+                               filter_text(json_data["message"]))
     remove_photo(image_file_path)
     return True, fb_response
 
 
 def post_video_on_fb(profile_id, oauth_access_token, message, video_link):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
-    fb_response = facebook_graph.put_object(profile_id, "feed", message=filter_text(message), link=video_link)
+    fb_response = facebook_graph.put_object(profile_id, "feed",
+                                            message=filter_text(message),
+                                            link=video_link)
     return True, fb_response
 
 
 def upload_photo(image_file_path, oauth_access_token, message=""):
     facebook_graph = facebook.GraphAPI(oauth_access_token)
-    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'), message=filter_text(message))
+    fb_response = facebook_graph.put_photo(image=open(image_file_path, 'rb'),
+                                           message=filter_text(message))
     return fb_response
 
 
@@ -76,7 +85,8 @@ def remove_photo(destination):
 
 
 def find_and_replace_url(message, replace_with_str=AMAZON_AFFILIATE_URL):
-    new_str = re.sub(r'\w+:\/{2}[\d\w-]+(\.[\d\w-]+)*(?:(?:\/[^\s/]*))*', replace_with_str, message)
+    new_str = re.sub(r'\w+:\/{2}[\d\w-]+(\.[\d\w-]+)*(?:(?:\/[^\s/]*))*',
+                     replace_with_str, message)
     return new_str
 
 
@@ -88,7 +98,8 @@ def filter_text(message, replace_with=AMAZON_AFFILIATE_URL):
 
 
 def get_image_url_on_id(photo_id, oauth_access_token):
-    api_url = "https://graph.facebook.com/" + str(photo_id) + "?fields=images&access_token=" + oauth_access_token
+    api_url = "https://graph.facebook.com/" + str(
+        photo_id) + "?fields=images&access_token=" + oauth_access_token
     response = requests.get(api_url)
     if response.status_code == 200:
         return response.json()["images"][0]["source"]
@@ -137,7 +148,8 @@ def get_attachments_dict(json_data, oauth_access_token):
         upload_response = upload_photo(image_file_path, oauth_access_token)
         remove_photo(image_file_path)
 
-        fb_image_url = get_image_url_on_id(upload_response["id"], oauth_access_token)
+        fb_image_url = get_image_url_on_id(upload_response["id"],
+                                           oauth_access_token)
         attachment_dict["picture"] = fb_image_url
 
         if "source" in json_data:
@@ -153,6 +165,13 @@ def get_attachments_dict(json_data, oauth_access_token):
         attachment_dict["name"] = filter_text(json_data["story"][:255])
 
         if "description" in json_data:
-            attachment_dict["description"] = filter_text(json_data["description"])
+            attachment_dict["description"] = filter_text(
+                json_data["description"])
 
     return attachment_dict
+
+
+def shorten_url(url):
+    shortener = Shortener('Google', api_key=GOOGLE_URL_SHORTENER_API_KEY)
+    short_url = shortener.short(url)
+    return short_url
