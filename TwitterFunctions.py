@@ -24,7 +24,7 @@ def post_status_on_twitter(tweet_message, media_list=list()):
 def post_multiple_tweets(tweets_list):
     for tweet_dict in tweets_list:
         tweet_message = tweet_dict["name"] + " @ Rs. " + tweet_dict[
-            "price"] + ". Visit " + tweet_dict["link"]
+            "price"] + ". Visit " + tweet_dict["threadcrafts_buy_link"]
         img_destination = BASE_DIR + 'tmpdata/' + tweet_dict["name"] + ".jpg"
         download_photo(tweet_dict["picture"], img_destination)
         post_status_on_twitter(tweet_message, media_list=[img_destination])
