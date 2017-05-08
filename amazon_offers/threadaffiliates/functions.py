@@ -31,7 +31,8 @@ def get_post_message_list():
         "Threadcrafts Store. Products exclusively handpicked for you.",
         "Exclusive range of products available only at Threadcrafts Store",
         "Amazing offers only on Threadcrafts Store",
-        "Grab 'em before they are gone. Visit now.",
+        "Grab 'em before they are gone. Shop now.",
+        "Great Indian Sale !!!",
     ]
     return message_list
 
