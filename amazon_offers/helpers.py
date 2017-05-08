@@ -41,12 +41,11 @@ def post_on_fb(access_tokens_list, child_attachment_list, message_list,
 
             for data in child_attachment_list:
                 post_data_dict = {
-                    "name": data["name"],
+                    "name": data["name"].encode("utf-8"),
                     "link": data["threadcrafts_buy_link"],
                     "picture": data["picture"],
-                    "description": data["description"],
-                    "message": data["name"] + "\n\n" + random.choice(
-                        message_list),
+                    "description": data["description"].encode("utf-8"),
+                    "message": data["name"].encode("utf-8") + "\n\n" + random.choice(message_list),
                 }
 
                 status = requests.post(api_url, post_data_dict)
