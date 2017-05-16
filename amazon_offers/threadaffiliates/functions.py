@@ -37,7 +37,7 @@ def get_post_message_list():
     return message_list
 
 
-def fetch_products(limit="0,5"):
+def fetch_products(limit="0,20"):
     # Fetching a random category from products table
     product_data_sql = "SELECT product_category_id FROM products WHERE product_status = 1 ORDER BY rand() LIMIT 0,1"
     product_data_result = execute_query(product_data_sql)
