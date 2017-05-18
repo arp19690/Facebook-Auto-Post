@@ -2,6 +2,7 @@ from TwitterAPI import TwitterAPI
 from config import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, \
     TWITTER_ACCESS_TOKEN_KEY, TWITTER_ACCESS_TOKEN_SECRET
 from facebookFunctions import download_photo, remove_photo, BASE_DIR
+from amazon_offers.threadaffiliates import functions
 
 
 def post_status_on_twitter(tweet_message, media_list=list()):
@@ -23,8 +24,11 @@ def post_status_on_twitter(tweet_message, media_list=list()):
 
 def post_multiple_tweets(tweets_list):
     for tweet_dict in tweets_list:
-        tweet_message = tweet_dict["name"] + " @ Rs. " + tweet_dict[
-            "price"] + ". Visit " + tweet_dict["threadcrafts_buy_link"]
+        tweet_message = tweet_dict[
+                            "name"] + " @ " + functions.get_currency_symbol(
+            tweet_dict["product_currency"]) + tweet_dict[
+                            "price"] + ". Visit " + tweet_dict[
+                            "threadcrafts_buy_link"]
         img_destination = BASE_DIR + 'tmpdata/' + tweet_dict["name"] + ".jpg"
         download_photo(tweet_dict["picture"], img_destination)
         post_status_on_twitter(tweet_message, media_list=[img_destination])

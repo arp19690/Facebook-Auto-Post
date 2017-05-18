@@ -53,7 +53,8 @@ def fetch_products(limit="0,20"):
             post_data_dict = {
                 "name": str(tmpdata["product_title"].decode('string_escape')),
                 "price": str(int(tmpdata["product_price_min"])),
-                "description": "Starts at Rs. " + str(
+                "description": "Starts at " + get_currency_symbol(
+                    tmpdata["product_currency"]) + str(
                     int(tmpdata["product_price_min"])),
                 "picture": tmpdata["product_image_url"],
                 "link": tmpdata["product_url_long"],
@@ -63,3 +64,10 @@ def fetch_products(limit="0,20"):
             }
             output_list.append(post_data_dict)
     return output_list
+
+
+def get_currency_symbol(currency_code):
+    output = "Rs. "
+    if currency_code == "USD":
+        output = "$"
+    return output
