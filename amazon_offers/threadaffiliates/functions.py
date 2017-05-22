@@ -39,12 +39,12 @@ def get_post_message_list():
 
 def fetch_products(limit="0,20"):
     # Fetching a random category from products table
-    product_data_sql = "SELECT product_category_id FROM products WHERE product_status = 1 ORDER BY rand() LIMIT 0,1"
+    product_data_sql = "SELECT product_category_id FROM products WHERE product_status = 1 AND product_currency = 'INR' ORDER BY rand() LIMIT 0,1"
     product_data_result = execute_query(product_data_sql)
     category_id = product_data_result[0]["product_category_id"]
 
     # Now fetching realted products for that particular category
-    sql = "SELECT * FROM products WHERE product_status = 1 AND product_category_id = " + str(
+    sql = "SELECT * FROM products WHERE product_status = 1 AND product_currency = 'INR' AND product_category_id = " + str(
         category_id) + " ORDER BY rand() LIMIT " + str(limit)
     data = execute_query(sql)
     output_list = list()
